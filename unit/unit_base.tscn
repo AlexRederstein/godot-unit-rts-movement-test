@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bl734doagbmm"]
+
+[ext_resource type="Texture2D" uid="uid://d2w3yg6jvur1m" path="res://icon.svg" id="1_rulr8"]
+[ext_resource type="Script" uid="uid://c5skv58h2s4tl" path="res://scripts/UnitStates.gd" id="1_xxv5a"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ita4j"]
+radius = 16.0
+
+[node name="UnitBase" type="CharacterBody2D" unique_id=1994326592]
+script = ExtResource("1_xxv5a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=187892092]
+shape = SubResource("CircleShape2D_ita4j")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1397705061]
+path_desired_distance = 6.0
+target_desired_distance = 6.0
+path_max_distance = 16.0
+avoidance_enabled = true
+radius = 16.0
+debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(0, 0.5647059, 1, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1431416219]
+position = Vector2(-5.9604645e-07, 0)
+scale = Vector2(0.24999999, 0.25)
+texture = ExtResource("1_rulr8")
