@@ -1,7 +1,7 @@
 extends Node2D
 
 
-var selected_units: Array = []
+var selected_units: Array[Unit] = []
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed():
@@ -19,11 +19,6 @@ func _issue_move_command(target_pos: Vector2) -> void:
 			unit.move_to(target_pos)
 
 func _select_unit_under_mouse() -> void:
-	for unit in selected_units:
-		if is_instance_valid(unit) and unit.has_method("set_selected"):
-			unit.set_selected(false)
-			
-	selected_units.clear()
 	
 	var space = get_world_2d().direct_space_state
 	var query = PhysicsPointQueryParameters2D.new()
@@ -34,6 +29,13 @@ func _select_unit_under_mouse() -> void:
 	for result in results:
 		var candidate = result.collider
 		if candidate is Unit:
+			
+			for unit in selected_units:
+				if is_instance_valid(unit) and unit.has_method("set_selected"):
+					unit.set_selected(false)
+			
+			selected_units.clear()
+			
 			selected_units.append(candidate)
 			candidate.set_selected(true)
 			break
