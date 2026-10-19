@@ -11,6 +11,11 @@ enum State {
 	DEAD 
 }
 
+enum Fraction {
+	RADIANT,
+	DIRE
+}
+
 # ---- СИГНАЛЫ ----
 signal died
 signal state_changed(old_state, new_state)
@@ -21,6 +26,8 @@ signal state_changed(old_state, new_state)
 @onready var selection_visual: Sprite2D = $SelectionCircle
 @onready var combat_module: UnitCombat = $CombatModule
 
+# --- ФРАКЦИЯ ----
+var fraction: Fraction = Fraction.RADIANT
 
 # --- СОСТОЯНИЕ ----
 var current_state: State = State.IDLE

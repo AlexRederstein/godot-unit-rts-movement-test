@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="UnitStats" format=3 uid="uid://cv67he7xy1i1b"]
+
+[ext_resource type="Script" uid="uid://bph6ijx44feq0" path="res://scripts/unit/unit_stats.gd" id="1_q27vr"]
+
+[resource]
+script = ExtResource("1_q27vr")
+max_health = 450
+damage = 25
+metadata/_custom_type_script = "uid://bph6ijx44feq0"

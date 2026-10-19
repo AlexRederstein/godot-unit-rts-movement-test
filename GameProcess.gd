@@ -1,7 +1,30 @@
 extends Node2D
 
 
+@export var creep_scene: PackedScene
+
 var selected_units: Array[Unit] = []
+
+@export var radiant_frames: SpriteFrames
+@export var dire_frames: SpriteFrames
+
+func _ready() -> void:
+	spawn_creep(Unit.Fraction.RADIANT, Vector2(100, 100))
+
+func spawn_creep(fraction: Unit.Fraction, pos: Vector2) -> void:
+	var new_creep = creep_scene.instantiate()
+	
+	var chosen_frames: SpriteFrames
+	if fraction == Unit.Fraction.RADIANT:
+		chosen_frames = radiant_frames
+	else:
+		chosen_frames = dire_frames
+		
+	new_creep.setup_fraction(fraction, chosen_frames)
+	
+	add_child(new_creep)
+	new_creep.global_position = pos
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed():
