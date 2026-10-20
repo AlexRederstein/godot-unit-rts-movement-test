@@ -7,6 +7,22 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ita4j"]
 radius = 16.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ita4j"]
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mwb8w"]
+bg_color = Color(1.7808378e-06, 0.5780689, 0.11633436, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
 [node name="UnitBase" type="CharacterBody2D" unique_id=1994326592]
 script = ExtResource("1_ru7ih")
 
@@ -37,3 +53,13 @@ texture = ExtResource("1_rulr8")
 script = ExtResource("3_ghq3d")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=240466917]
+
+[node name="HeatlhBar" type="ProgressBar" parent="." unique_id=1450864095]
+offset_left = -24.0
+offset_top = -26.0
+offset_right = 24.0
+offset_bottom = -24.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ita4j")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mwb8w")
+value = 100.0
+show_percentage = false

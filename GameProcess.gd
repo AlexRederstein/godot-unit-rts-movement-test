@@ -1,29 +1,27 @@
 extends Node2D
 
 
-@export var creep_scene: PackedScene
+#@export var creep_scene: PackedScene
 
 var selected_units: Array[Unit] = []
 
-@export var radiant_frames: SpriteFrames
-@export var dire_frames: SpriteFrames
+#@export var radiant_frames: SpriteFrames
+#@export var dire_frames: SpriteFrames
+var creeps :Dictionary[String, PackedScene] = {
+	"creep_melee_radiant": preload("res://unit/creep_melee_radiant/creep_melee_radiant_scene.tscn"),
+	"creep_melee_dire": preload("res://unit/creep_melee_dire/creep_melee_dire_scene.tscn")
+}
+
 
 func _ready() -> void:
-	spawn_creep(Unit.Fraction.RADIANT, Vector2(100, 100))
+	create_unit("creep_melee_radiant", Vector2(100, 100))
+	create_unit("creep_melee_dire", Vector2(100, 200))
 
-func spawn_creep(fraction: Unit.Fraction, pos: Vector2) -> void:
-	var new_creep = creep_scene.instantiate()
-	
-	var chosen_frames: SpriteFrames
-	if fraction == Unit.Fraction.RADIANT:
-		chosen_frames = radiant_frames
-	else:
-		chosen_frames = dire_frames
-		
-	new_creep.setup_fraction(fraction, chosen_frames)
-	
-	add_child(new_creep)
-	new_creep.global_position = pos
+func create_unit(name: String, pos: Vector2) -> void:
+	if creeps.has(name):
+		var new_unit = creeps[name].instantiate()
+		add_child(new_unit)
+		new_unit.global_position = pos
 
 
 func _unhandled_input(event: InputEvent) -> void:

@@ -2,10 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://br56hfk25cupb" path="res://PC_Computer_-_Warcraft_2_-_Summer_Tiles.png" id="1_206su"]
 [ext_resource type="Script" uid="uid://2r1sej4ud4qw" path="res://GameProcess.gd" id="1_avahw"]
-[ext_resource type="PackedScene" uid="uid://bl734doagbmm" path="res://unit/unit_base.tscn" id="2_0u6kl"]
-[ext_resource type="PackedScene" uid="uid://diniio3lfnj8s" path="res://unit/creep_melee/creep_melee.tscn" id="2_e1kr5"]
-[ext_resource type="SpriteFrames" uid="uid://be4lpnnfyn5sa" path="res://unit/creep_melee_radiant/sprites.tres" id="3_3shck"]
-[ext_resource type="SpriteFrames" uid="uid://dyr2aj241q4fe" path="res://unit/creep_melee_dire/sprites.tres" id="4_h2lqh"]
+[ext_resource type="PackedScene" uid="uid://bmqlyfpgre41s" path="res://camera/camera.tscn" id="3_avahw"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_ita4j"]
 vertices = PackedVector2Array(1008, 592, 1424, 848, -208, 848, 496, 592, 1424, -144, 1008, 208, -208, -144, 496, 208, 496, 272, 688, 496, 944, 496, 944, 528, 560, 528, 560, 400, 688, 432, 816, 400, 944, 432, 944, 272, 816, 304, 752, 304, 752, 336, 496, 336)
@@ -1230,9 +1227,6 @@ sources/0 = SubResource("TileSetAtlasSource_avahw")
 
 [node name="World" type="Node2D" unique_id=167726131]
 script = ExtResource("1_avahw")
-creep_scene = ExtResource("2_e1kr5")
-radiant_frames = ExtResource("3_3shck")
-dire_frames = ExtResource("4_h2lqh")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1562460747]
 position = Vector2(1, 0)
@@ -1247,8 +1241,4 @@ visible = false
 tile_map_data = PackedByteArray("AADm/wgAAAAEAAcAAADn/wgAAAAEAAcAAADm/wcAAAAEAAcAAADn/wcAAAAEAAcAAADo/wcAAAAEAAcAAADo/wgAAAAEAAcAAADp/wcAAAAEAAcAAADp/wgAAAAEAAcAAADt/wgAAAALAAYAAADu/wgAAAALAAYAAADt/wcAAAALAAYAAADu/wcAAAALAAYAAADn/wEAAAADAAcAAADn/wIAAAABAAYAAADn/wMAAAABAAYAAADn/wQAAAABAAYAAADo/wEAAAALAAUAAADo/wIAAAANAAYAAADo/wMAAAANAAYAAADo/wQAAAANAAYAAADp/wEAAAALAAUAAADp/wIAAAANAAYAAADp/wMAAAANAAYAAADp/wQAAAANAAYAAADq/wEAAAALAAUAAADq/wIAAAANAAYAAADq/wMAAAANAAYAAADq/wQAAAANAAYAAADr/wEAAAALAAUAAADr/wIAAAANAAYAAADr/wMAAAANAAYAAADr/wQAAAANAAYAAADs/wEAAAALAAUAAADs/wIAAAANAAYAAADs/wMAAAANAAYAAADs/wQAAAANAAYAAADt/wEAAAAMAAUAAADt/wIAAAAOAAUAAADt/wMAAAAOAAUAAADt/wQAAAAOAAUAAADp/wUAAAARAAYAAADq/wUAAAARAAYAAADr/wUAAAARAAYAAADs/wUAAAARAAYAAADo/wUAAAARAAYAAADn/wUAAAAQAAYAAADt/wUAAAAPAAYAAAA=")
 tile_set = SubResource("TileSet_bhunq")
 
-[node name="UnitBase" parent="." unique_id=1994326592 instance=ExtResource("2_0u6kl")]
-position = Vector2(429, 187)
-
-[node name="UnitBase2" parent="." unique_id=35668655 instance=ExtResource("2_0u6kl")]
-position = Vector2(706, 104)
+[node name="Camera" parent="." unique_id=1547141651 instance=ExtResource("3_avahw")]

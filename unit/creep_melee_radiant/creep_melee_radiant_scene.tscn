@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://diniio3lfnj8s"]
+
+[ext_resource type="PackedScene" uid="uid://bl734doagbmm" path="res://unit/unit_base.tscn" id="1_mkymc"]
+[ext_resource type="Script" uid="uid://j3cijlnn8r0u" path="res://scripts/unit/index.gd" id="2_ch41c"]
+[ext_resource type="Script" uid="uid://n6eqhm0gen7e" path="res://scripts/unit/unit_metadata.gd" id="3_hveqr"]
+[ext_resource type="Resource" uid="uid://cv67he7xy1i1b" path="res://unit/creep_melee/creep_meele_stats.tres" id="4_bygru"]
+[ext_resource type="SpriteFrames" uid="uid://be4lpnnfyn5sa" path="res://unit/creep_melee_radiant/sprites.tres" id="5_yrh3a"]
+
+[sub_resource type="Resource" id="Resource_mljvk"]
+script = ExtResource("3_hveqr")
+metadata/_custom_type_script = "uid://n6eqhm0gen7e"
+
+[node name="UnitBase" unique_id=1994326592 instance=ExtResource("1_mkymc")]
+script = ExtResource("2_ch41c")
+metadata = SubResource("Resource_mljvk")
+stats = ExtResource("4_bygru")
+
+[node name="AnimatedSprite2D" parent="." index="5" unique_id=240466917]
+sprite_frames = ExtResource("5_yrh3a")
+animation = &"idle"
