@@ -60,7 +60,8 @@ func _ready() -> void:
 	_setup_nav_agent()
 	
 	if selection_visual:
-		selection_visual.visible = false
+		selection_visual.modulate = Color.GRAY
+		#selection_visual.visible = false
 		
 	if anim_sprite.sprite_frames.has_animation("idle"):
 		anim_sprite.play("idle")
@@ -113,8 +114,14 @@ func stop() -> void:
 	
 func set_selected(selected: bool) -> void:
 	_is_selected = selected
-	if selection_visual:
-		selection_visual.visible = selected
+	if selected:
+		selection_visual.modulate = Color.GREEN
+	else:
+		selection_visual.modulate = Color.GRAY
+	#if selection_visual:
+		#selection_visual.visible = selected
+		#if selected: 
+			#selection_visual.modulate = Color.GREEN
 		
 # =================================================
 # =================================================

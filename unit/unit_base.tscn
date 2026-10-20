@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c1wol4rjnqupb" path="res://unit/creep_melee/creep_melee.gd" id="1_ru7ih"]
 [ext_resource type="Texture2D" uid="uid://d2w3yg6jvur1m" path="res://icon.svg" id="1_rulr8"]
 [ext_resource type="Script" uid="uid://2kr34kkf8dra" path="res://scripts/unit/combat_module.gd" id="3_ghq3d"]
+[ext_resource type="Texture2D" uid="uid://ctonuoypaiwj7" path="res://selection_sprite.png" id="3_pcnxy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ita4j"]
 radius = 16.0
@@ -48,6 +49,7 @@ scale = Vector2(0.24999999, 0.25)
 texture = ExtResource("1_rulr8")
 
 [node name="SelectionCircle" type="Sprite2D" parent="." unique_id=1683648451]
+texture = ExtResource("3_pcnxy")
 
 [node name="CombatModule" type="Node2D" parent="." unique_id=696823430]
 script = ExtResource("3_ghq3d")
