@@ -11,7 +11,7 @@ extends Resource
 @export_group("Combat")
 @export var damage: int = 10
 @export var attack_range: float = 40.0
-@export var attak_delay: float = 1.0
+@export var attaсk_delay: float = 1.0
 
 @export_group("Movement")
 @export var speed: int = 100 # Скорость юнита

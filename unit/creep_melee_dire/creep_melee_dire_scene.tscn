@@ -7,6 +7,7 @@
 
 [sub_resource type="Resource" id="Resource_qet6x"]
 script = ExtResource("2_f6mki")
+fraction = 1
 metadata/_custom_type_script = "uid://n6eqhm0gen7e"
 
 [node name="UnitBase" unique_id=1994326592 instance=ExtResource("1_dss3v")]

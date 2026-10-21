@@ -20,15 +20,15 @@ func _process(delta):
 	zoom = zoom.lerp(target_zoom, zoom_smooth * delta)
 	
 	# Определение краёв
-	if mouse_pos.x < edge_margin:
-		move_dir.x -= 1
-	elif mouse_pos.x > viewport_size.x - edge_margin:
-		move_dir.x += 1
-		
-	if mouse_pos.y < edge_margin:
-		move_dir.y -= 1
-	elif mouse_pos.y > viewport_size.y - edge_margin:
-		move_dir.y += 1
+	#if mouse_pos.x < edge_margin:
+		#move_dir.x -= 1
+	#elif mouse_pos.x > viewport_size.x - edge_margin:
+		#move_dir.x += 1
+		#
+	#if mouse_pos.y < edge_margin:
+		#move_dir.y -= 1
+	#elif mouse_pos.y > viewport_size.y - edge_margin:
+		#move_dir.y += 1
 
 	if move_dir != Vector2.ZERO:
 		# Учёт коэффициента масштабирования, чтобы скорость не менялась при увеличении
