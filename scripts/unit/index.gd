@@ -16,6 +16,7 @@ signal state_changed(old_state, new_state)
 @onready var combat_module: UnitCombat = $CombatModule
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var heath_bar: ProgressBar = $HealthBar
+@onready var attack_timer: Timer = $AttackDelayTimer
 
 # --- СОСТОЯНИЕ ----
 var current_state: UnitTypes.State = UnitTypes.State.IDLE
@@ -32,12 +33,13 @@ var health: int = 100:
 	set(value):
 		health = clamp(value, 0, max_health)
 		_update_health_bar()
-
+# --- Бой ---
+var attaсk_delay :float
 # --- Технические переменные ---
 
 var current_dir: String = "e"
-var _attack_timer: float = 0.0
 var _is_attacking_anim: bool = false # Флаг: проигрывается ли анимация атаки
+var _is_death_animation: bool = false # Флаг: проигрывается ли анимация смерти
 
 # =================================================
 # ИНИЦИАЛИЗАЦИЯ 
@@ -56,6 +58,10 @@ func _ready() -> void:
 		
 	health = stats.max_health
 	combat_module.setup(stats)
+	
+	attaсk_delay = stats.attaсk_delay
+	
+	attack_timer.wait_time = attaсk_delay
 	
 	#combat_module.attack_performed.connect(_on_attack_performed)
 	anim_sprite.animation_finished.connect(_on_animation_finished)
@@ -241,13 +247,8 @@ func _process_attack(delta: float) -> void:
 		set_state(UnitTypes.State.MOVE)
 		return
 	
-	if _attack_timer > 0.0:
-		_attack_timer -= delta
-		
-	if _attack_timer <= 0.0 and not _is_attacking_anim:
-		_attack_timer = stats.attaсk_delay
+	if attack_timer.is_stopped():
 		_is_attacking_anim = true
-		
 		_play_animation("attack")
 	#if dist <= stats.attack_range and not attaсk_delay > 0:
 		#_play_animation("attack")
@@ -279,23 +280,28 @@ func _die() -> void:
 		
 func _on_died() -> void:
 	var chosen_anim := "death"
-	var has_d1 = anim_sprite.sprite_frames.has_animation("death_1")
-	var has_d2 = anim_sprite.sprite_frames.has_animation("death_2")
 	
-	if has_d1 and has_d2:
-		# Если есть обе — подбрасываем монетку (randi() % 2 возвращает 0 или 1)
-		if randi() % 2 == 0:
-			chosen_anim = "death_1"
-		else:
-			chosen_anim = "death_2"
-	elif has_d1:
-		# Если есть только первая
-		chosen_anim = "death_1"
-	elif has_d2:
-		# Если есть только вторая
-		chosen_anim = "death_2"
+	var has_d_n = anim_sprite.sprite_frames.has_animation("death_n")
+	var has_d_s = anim_sprite.sprite_frames.has_animation("death_s")
+	#
+	if has_d_n and has_d_s:
+		## Если есть обе — подбрасываем монетку (randi() % 2 возвращает 0 или 1)
+		match current_dir:
+			"n", "ne":
+				chosen_anim = "death_n"
+			"e", "se", "s":
+				chosen_anim = "death_s"
+				
+		#if current_dir:
+		#else:
+	elif has_d_n:
+		## Если есть только первая
+		chosen_anim = "death_n"
+	elif has_d_s:
+		## Если есть только вторая
+		chosen_anim = "has_d_s"
 	elif not anim_sprite.sprite_frames.has_animation("death"):
-		push_warning("У юнита нет анимации смерти!")
+		#push_warning("У юнита нет анимации смерти!")
 		return
 		
 	anim_sprite.play(chosen_anim)
@@ -332,6 +338,9 @@ func _on_animation_finished():
 			if dist <= stats.attack_range:
 				if current_target.has_method("take_damage"):
 					current_target.take_damage(stats.damage)
+					attack_timer.wait_time = attaсk_delay
+					attack_timer.start()
+					
 					# Здесь можно добавить звук удара или спавн частиц крови
 			
 		# Возвращаем анимацию покоя, если мы все еще в бою

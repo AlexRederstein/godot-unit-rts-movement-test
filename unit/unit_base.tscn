@@ -15,6 +15,10 @@ corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mwb8w"]
 bg_color = Color(1.7808378e-06, 0.5780689, 0.11633436, 1)
@@ -36,7 +40,6 @@ target_desired_distance = 12.0
 path_max_distance = 16.0
 avoidance_enabled = true
 radius = 16.0
-neighbor_distance = 250.0
 max_neighbors = 8
 avoidance_priority = 0.01
 debug_enabled = true
@@ -66,3 +69,6 @@ theme_override_styles/background = SubResource("StyleBoxFlat_ita4j")
 theme_override_styles/fill = SubResource("StyleBoxFlat_mwb8w")
 value = 100.0
 show_percentage = false
+
+[node name="AttackDelayTimer" type="Timer" parent="." unique_id=1312528434]
+one_shot = true

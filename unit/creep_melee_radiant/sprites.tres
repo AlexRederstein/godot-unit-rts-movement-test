@@ -149,7 +149,7 @@ animations = [{
 "texture": ExtResource("22_i5ffo")
 }],
 "loop": 0,
-"name": &"death_1",
+"name": &"death_n",
 "speed": 5.0
 }, {
 "frames": [{
@@ -163,7 +163,7 @@ animations = [{
 "texture": ExtResource("25_pn6p1")
 }],
 "loop": 0,
-"name": &"death_2",
+"name": &"death_s",
 "speed": 5.0
 }, {
 "frames": [{

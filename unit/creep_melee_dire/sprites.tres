@@ -65,7 +65,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("4_ndh70")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"attack_e",
 "speed": 5.0
 }, {
@@ -82,7 +82,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("8_vdca2")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"attack_n",
 "speed": 5.0
 }, {
@@ -99,7 +99,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("11_wkipy")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"attack_ne",
 "speed": 5.0
 }, {
@@ -116,7 +116,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("15_nxljv")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"attack_s",
 "speed": 5.0
 }, {
@@ -133,7 +133,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("18_hsy83")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"attack_se",
 "speed": 5.0
 }, {
@@ -147,8 +147,8 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("21_mf4qd")
 }],
-"loop": 1,
-"name": &"death_1",
+"loop": 0,
+"name": &"death_n",
 "speed": 5.0
 }, {
 "frames": [{
@@ -161,8 +161,8 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("24_jf35p")
 }],
-"loop": 1,
-"name": &"death_2",
+"loop": 0,
+"name": &"death_s",
 "speed": 5.0
 }, {
 "frames": [{
