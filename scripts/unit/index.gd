@@ -17,6 +17,7 @@ signal state_changed(old_state, new_state)
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var heath_bar: ProgressBar = $HealthBar
 @onready var attack_timer: Timer = $AttackDelayTimer
+@onready var aggro_area: Area2D = $AggroArea
 
 # --- СОСТОЯНИЕ ----
 var current_state: UnitTypes.State = UnitTypes.State.IDLE
@@ -40,6 +41,8 @@ var attaсk_delay :float
 var current_dir: String = "e"
 var _is_attacking_anim: bool = false # Флаг: проигрывается ли анимация атаки
 var _is_death_animation: bool = false # Флаг: проигрывается ли анимация смерти
+var _enemies_in_range: Array[Unit] = []
+var _idle_scan_timer: float = 0.5
 
 # =================================================
 # ИНИЦИАЛИЗАЦИЯ 
@@ -66,6 +69,8 @@ func _ready() -> void:
 	#combat_module.attack_performed.connect(_on_attack_performed)
 	anim_sprite.animation_finished.connect(_on_animation_finished)
 	nav_agent.velocity_computed.connect(_on_velocity_computed)
+	aggro_area.body_entered.connect(_on_aggro_body_entered)
+	aggro_area.body_exited.connect(_on_aggro_body_existed)
 	state_changed.connect(_on_state_changed)
 
 	_setup_nav_agent()
@@ -209,10 +214,25 @@ func _check_transitions() -> void:
 	
 
 func _process_idle() -> void:
-	#if metadata.fraction == UnitMetaData.Fraction.RADIANT:
-		#print("idle")
 	velocity = Vector2.ZERO
 	
+	_idle_scan_timer -= get_physics_process_delta_time()
+	if _idle_scan_timer <= 0.0:
+		_idle_scan_timer = 0.5
+		_scan_for_enemies()
+	
+
+func _scan_for_enemies():
+	if _enemies_in_range.is_empty():
+		return
+		
+	var target = _enemies_in_range[0]
+	
+	if not is_instance_valid(target) or target.current_state == UnitTypes.State.DEAD:
+		_enemies_in_range.remove_at(0)
+		return
+	
+	attack(target)
 
 func _process_move() -> void:
 #	Преследование противника
@@ -346,6 +366,17 @@ func _on_animation_finished():
 		# Возвращаем анимацию покоя, если мы все еще в бою
 		if current_state == UnitTypes.State.ATTACK:
 			anim_sprite.play("idle")
+			
+func _on_aggro_body_entered(body: Node2D) -> void:
+	if body is Unit and is_instance_valid(body) and body.current_state != UnitTypes.State.DEAD:
+		if body.metadata.fraction != self.metadata.fraction:
+			if not _enemies_in_range.has(body):
+				_enemies_in_range.append(body)
+				
+
+func _on_aggro_body_existed(body: Node2D) -> void:
+	if _enemies_in_range.has(body):
+		_enemies_in_range.erase(body)
 # ==========================================
 # Анимации
 # ==========================================

@@ -28,7 +28,11 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_mwb8w"]
+radius = 64.0
+
 [node name="UnitBase" type="CharacterBody2D" unique_id=1994326592]
+collision_layer = 3
 script = ExtResource("1_ghq3d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=187892092]
@@ -72,3 +76,11 @@ show_percentage = false
 
 [node name="AttackDelayTimer" type="Timer" parent="." unique_id=1312528434]
 one_shot = true
+
+[node name="AggroArea" type="Area2D" parent="." unique_id=2094427380]
+visible = false
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggroArea" unique_id=973654627]
+shape = SubResource("CircleShape2D_mwb8w")
