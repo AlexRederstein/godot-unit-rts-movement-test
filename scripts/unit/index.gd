@@ -38,6 +38,8 @@ var health: int = 100:
 var attaсk_delay :float
 # --- Технические переменные ---
 
+@export var owner_id: int = 0    # кто владеет
+var unit_id: int = 0             # ВАЖНО: НЕ @export — назначается сервером в рантайме
 var current_dir: String = "e"
 var _is_attacking_anim: bool = false # Флаг: проигрывается ли анимация атаки
 var _is_death_animation: bool = false # Флаг: проигрывается ли анимация смерти
@@ -55,6 +57,13 @@ func _ready() -> void:
 	if anim_sprite.sprite_frames == null:
 		push_error("Юнит заспавнен без анимаций! Назначьте SpriteFrames в инспекторе или через setup_fraction.")
 		return
+		
+	if unit_id != 0:
+		GameManager.register_unit(self)
+
+func _exit_tree():
+	GameManager.unregister_unit(self)
+	
 		
 	heath_bar.max_value = stats.max_health
 	heath_bar.value = stats.health
@@ -115,6 +124,14 @@ func move_to(target_pos: Vector2) -> void:
 	nav_agent.target_position = target_pos
 	set_state(UnitTypes.State.MOVE)
 	
+
+func command_attack_move(target: Node2D, destination: Vector2) -> void:
+	if current_state == UnitTypes.State.DEAD: return
+	
+	current_target = target
+	nav_agent.target_position = destination
+	set_state(UnitTypes.State.MOVE)	
+
 func attack(target: Node2D) -> void:
 	if current_state == UnitTypes.State.DEAD or not is_instance_valid(target): return
 	
@@ -235,13 +252,12 @@ func _scan_for_enemies():
 	attack(target)
 
 func _process_move() -> void:
-#	Преследование противника
-	if current_target and is_instance_valid(current_target):
-		nav_agent.target_position = current_target.global_position
-		
+	# Если есть цель, но мы в состоянии MOVE, значит мы преследуем её
+	# НО! Мы не перезаписываем target_position, если менеджер уже задал точку окружения.
+	# Поэтому просто проверяем дистанцию (это уже делает _check_transitions).
+	
 	if nav_agent.is_navigation_finished():
 		return
-	#print("move")
 		
 	var next_pos = nav_agent.get_next_path_position()
 	var dir = global_position.direction_to(next_pos)

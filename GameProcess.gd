@@ -2,11 +2,9 @@ extends Node2D
 
 
 #@export var creep_scene: PackedScene
+@onready var selection: SelectionManager = $SelectionManager
+@onready var units_container: Node2D = $Units
 
-var selected_units: Array[Unit] = []
-
-#@export var radiant_frames: SpriteFrames
-#@export var dire_frames: SpriteFrames
 var creeps :Dictionary[String, PackedScene] = {
 	"creep_melee_radiant": preload("res://unit/creep_melee_radiant/creep_melee_radiant_scene.tscn"),
 	"creep_melee_dire": preload("res://unit/creep_melee_dire/creep_melee_dire_scene.tscn")
@@ -14,66 +12,62 @@ var creeps :Dictionary[String, PackedScene] = {
 
 
 func _ready() -> void:
-	create_unit("creep_melee_radiant", Vector2(100, 100))
-	create_unit("creep_melee_dire", Vector2(100, 200))
+	selection.selection_changed.connect(_on_selection_changed)
+	spawn_unit(creeps["creep_melee_radiant"], Vector2(100, 100), 1)
+	spawn_unit(creeps["creep_melee_radiant"], Vector2(150, 100), 1)
+	#create_unit("creep_melee_radiant", Vector2(100, 100))
+	#create_unit("creep_melee_dire", Vector2(100, 200))
+
+func _on_selection_changed(units: Array[Unit]):
+	print("Выбрано юнитов: ", units.size())
+
+func spawn_unit(scene: PackedScene, pos: Vector2, owner_id: int) -> void:
+	var unit: Unit = scene.instantiate()
+	unit.unit_id = GameManager.alloc_unit_id()   # сервер выдаёт
+	unit.owner_id = owner_id
+	unit.position = pos
+	units_container.add_child(unit)
+	# Регистрация произойдёт в _ready() юнита
+
+	# В мультиплеере: разослать всем клиентам
+	if multiplayer.is_server():
+		_spawn_unit_networked.rpc(unit.unit_id, owner_id, pos, scene.resource_path)
+
 
 func create_unit(name: String, pos: Vector2) -> void:
 	if creeps.has(name):
 		var new_unit = creeps[name].instantiate()
-		add_child(new_unit)
+		units_container.add_child(new_unit)
 		new_unit.global_position = pos
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.is_pressed():
-		if event.is_action("move_click"):
-			_issue_move_command(get_global_mouse_position())
-		elif event.is_action("select_click"):
-			_select_unit_under_mouse()
-		
-func _issue_move_command(target_pos: Vector2) -> void:
-	if selected_units.is_empty():
-		return
-	
-	var unit = _check_units_under_mouse(target_pos)
-	
-	if unit:
-		#print(GameManager.local_player_fraction != unit.metadata.fraction)
-		if GameManager.local_player_fraction != unit.metadata.fraction:
-			for selected_unit in selected_units:
-				if is_instance_valid(selected_unit) and selected_unit.has_method("attack"):
-					selected_unit.attack(unit)
-	else:
-		for selected_unit in selected_units:
-			if is_instance_valid(selected_unit) and selected_unit.has_method("move_to"):
-				selected_unit.move_to(target_pos)
-		
-
-func _select_unit_under_mouse() -> void:
-	var unit = _check_units_under_mouse(get_global_mouse_position())
-	if unit and unit.metadata.fraction == GameManager.local_player_fraction:
-		for old_selected in selected_units:
-			if is_instance_valid(old_selected) and unit.has_method("set_selected"):
-				old_selected.set_selected(false)
-		selected_units.clear()
-			
-		selected_units.append(unit)
-		unit.set_selected(true)
 				
-func _check_units_under_mouse(mouse_pos: Vector2) -> Unit:
-	var space = get_world_2d().direct_space_state
-	var query = PhysicsPointQueryParameters2D.new()
-	query.position = mouse_pos
-	query.collide_with_bodies = true
-	
-	var results = space.intersect_point(query)
-	
-	for result in results:
-		var candidate = result.collider
-		if candidate is Unit and is_instance_valid(candidate) and candidate.current_state != UnitTypes.State.DEAD:
-			print(candidate.metadata.fraction)
-			return candidate
-		break
 		
-	return null
-	
+func issue_move_command(target: Vector2):
+	var units = selection.get_selected()
+	# Только свои юниты!
+	var my_id = multiplayer.get_unique_id()
+	for u in units:
+		if u.owner_id != my_id:
+			continue
+		# В мультиплеере здесь НЕ двигаем локально, а шлём RPC на сервер:
+		_request_move.rpc_id(1, u.get_path(), target)
+		
+
+@rpc("authority", "reliable")
+func _spawn_unit_networked(unit_id: int, owner_id: int, pos: Vector2, scene_path: String) -> void:
+	# На клиенте: создать юнит с ТЕМ ЖЕ unit_id
+	var scene: PackedScene = load(scene_path)
+	var unit: Unit = scene.instantiate()
+	unit.unit_id = unit_id
+	unit.owner_id = owner_id
+	unit.position = pos
+	add_child(unit)
+
+@rpc("any_peer", "reliable")
+func _request_move(unit_path: NodePath, target: Vector2):
+	if not multiplayer.is_server():
+		return
+	# Сервер проверяет, что юнит принадлежит отправителю
+	var sender = multiplayer.get_remote_sender_id()
+	var unit = get_node_or_null(unit_path) as Unit
+	if unit and unit.owner_id == sender:
+		unit.move_to(target)	

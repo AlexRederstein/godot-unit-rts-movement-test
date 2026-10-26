@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d0qmm7lm6e50o"]
+
+[ext_resource type="Script" uid="uid://bvju2wbskkbtk" path="res://squad_manager/squad_manager.gd" id="1_rbm4r"]
+
+[node name="SquadManagerScene" type="Node2D" unique_id=1797303945]
+script = ExtResource("1_rbm4r")

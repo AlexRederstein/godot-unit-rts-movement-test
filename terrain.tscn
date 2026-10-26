@@ -3,8 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://br56hfk25cupb" path="res://PC_Computer_-_Warcraft_2_-_Summer_Tiles.png" id="1_206su"]
 [ext_resource type="Script" uid="uid://2r1sej4ud4qw" path="res://GameProcess.gd" id="1_avahw"]
 [ext_resource type="PackedScene" uid="uid://bmqlyfpgre41s" path="res://camera/camera.tscn" id="3_avahw"]
-[ext_resource type="PackedScene" uid="uid://diniio3lfnj8s" path="res://unit/creep_melee_radiant/creep_melee_radiant_scene.tscn" id="4_iqhxt"]
-[ext_resource type="PackedScene" uid="uid://bocoi7d1nsdfs" path="res://unit/creep_melee_dire/creep_melee_dire_scene.tscn" id="5_e1kr5"]
+[ext_resource type="Script" uid="uid://d2as56l441av" path="res://scripts/game/SelectionManager.gd" id="4_n7k1k"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_ita4j"]
 vertices = PackedVector2Array(1008, 592, 1424, 848, -208, 848, 496, 592, 1424, -144, 1008, 208, -208, -144, 496, 208, 496, 272, 688, 496, 944, 496, 944, 528, 560, 528, 560, 400, 688, 432, 816, 400, 944, 432, 944, 272, 816, 304, 752, 304, 752, 336, 496, 336)
@@ -1227,6 +1226,14 @@ terrain_set_0/terrain_0/name = "trees"
 terrain_set_0/terrain_0/color = Color(0.09108969, 0.23059526, 1, 1)
 sources/0 = SubResource("TileSetAtlasSource_avahw")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n7k1k"]
+bg_color = Color(0, 0.4436747, 0, 0.105882354)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.18930796, 0.528767, 0, 1)
+
 [node name="World" type="Node2D" unique_id=167726131]
 script = ExtResource("1_avahw")
 
@@ -1245,68 +1252,10 @@ tile_set = SubResource("TileSet_bhunq")
 
 [node name="Camera" parent="." unique_id=1547141651 instance=ExtResource("3_avahw")]
 
-[node name="UnitBase" parent="." unique_id=1994326592 instance=ExtResource("4_iqhxt")]
-position = Vector2(157, 584)
+[node name="Units" type="Node2D" parent="." unique_id=1217432480]
 
-[node name="UnitBase2" parent="." unique_id=1628939023 instance=ExtResource("4_iqhxt")]
-position = Vector2(193, 613)
+[node name="SelectionManager" type="CanvasLayer" parent="." unique_id=2075417692]
+script = ExtResource("4_n7k1k")
 
-[node name="UnitBase3" parent="." unique_id=227546856 instance=ExtResource("4_iqhxt")]
-position = Vector2(222, 643)
-
-[node name="UnitBase4" parent="." unique_id=1689191830 instance=ExtResource("4_iqhxt")]
-position = Vector2(201, 565)
-
-[node name="UnitBase5" parent="." unique_id=1893456915 instance=ExtResource("4_iqhxt")]
-position = Vector2(245, 598)
-
-[node name="UnitBase6" parent="." unique_id=296817702 instance=ExtResource("5_e1kr5")]
-position = Vector2(106, 613)
-
-[node name="UnitBase7" parent="." unique_id=455972394 instance=ExtResource("5_e1kr5")]
-position = Vector2(172, 671)
-
-[node name="UnitBase8" parent="." unique_id=539312033 instance=ExtResource("5_e1kr5")]
-position = Vector2(145, 636)
-
-[node name="UnitBase9" parent="." unique_id=1368317160 instance=ExtResource("5_e1kr5")]
-position = Vector2(128, 672)
-
-[node name="UnitBase10" parent="." unique_id=1013947909 instance=ExtResource("5_e1kr5")]
-position = Vector2(96, 645)
-
-[node name="UnitBase11" parent="." unique_id=1141212018 instance=ExtResource("5_e1kr5")]
-position = Vector2(-718, 827)
-
-[node name="UnitBase12" parent="." unique_id=1849490463 instance=ExtResource("5_e1kr5")]
-position = Vector2(-693, 855)
-
-[node name="UnitBase13" parent="." unique_id=446389945 instance=ExtResource("5_e1kr5")]
-position = Vector2(-732, 869)
-
-[node name="UnitBase14" parent="." unique_id=1244495956 instance=ExtResource("5_e1kr5")]
-position = Vector2(-753, 840)
-
-[node name="UnitBase15" parent="." unique_id=213162641 instance=ExtResource("4_iqhxt")]
-position = Vector2(-653, 831)
-
-[node name="UnitBase16" parent="." unique_id=118986233 instance=ExtResource("4_iqhxt")]
-position = Vector2(-679, 794)
-
-[node name="UnitBase17" parent="." unique_id=1346861984 instance=ExtResource("4_iqhxt")]
-position = Vector2(-612, 803)
-
-[node name="UnitBase18" parent="." unique_id=367429600 instance=ExtResource("4_iqhxt")]
-position = Vector2(-643, 764)
-
-[node name="UnitBase19" parent="." unique_id=417502145 instance=ExtResource("4_iqhxt")]
-position = Vector2(-704, 767)
-
-[node name="UnitBase20" parent="." unique_id=2135602140 instance=ExtResource("4_iqhxt")]
-position = Vector2(-671, 736)
-
-[node name="UnitBase21" parent="." unique_id=1786199260 instance=ExtResource("5_e1kr5")]
-position = Vector2(-758, 787)
-
-[node name="UnitBase22" parent="." unique_id=943873625 instance=ExtResource("5_e1kr5")]
-position = Vector2(-787, 813)
+[node name="SelectionBox" type="Panel" parent="SelectionManager" unique_id=1124517021]
+theme_override_styles/panel = SubResource("StyleBoxFlat_n7k1k")
