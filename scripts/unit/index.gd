@@ -39,7 +39,7 @@ var attaсk_delay :float
 # --- Технические переменные ---
 
 @export var owner_id: int = 0    # кто владеет
-var unit_id: int = 0             # ВАЖНО: НЕ @export — назначается сервером в рантайме
+var unit_id: int = 1             # ВАЖНО: НЕ @export — назначается сервером в рантайме
 var current_dir: String = "e"
 var _is_attacking_anim: bool = false # Флаг: проигрывается ли анимация атаки
 var _is_death_animation: bool = false # Флаг: проигрывается ли анимация смерти
@@ -60,6 +60,7 @@ func _ready() -> void:
 		
 	if unit_id != 0:
 		GameManager.register_unit(self)
+	add_to_group("units")
 
 func _exit_tree():
 	GameManager.unregister_unit(self)

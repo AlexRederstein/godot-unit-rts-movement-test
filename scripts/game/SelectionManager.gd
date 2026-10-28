@@ -35,7 +35,7 @@ func _finish_selection(rect: Rect2):
 	print(current_player)
 	var selected := []
 	for unit in get_tree().get_nodes_in_group("units"):
-		print(unit.owner_id)
+		print("unit id ", unit.owner_id)
 		if unit.owner_id != current_player:
 			continue
 		var screen_pos = unit.get_global_transform_with_canvas().origin

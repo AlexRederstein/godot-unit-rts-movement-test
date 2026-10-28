@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://2r1sej4ud4qw" path="res://GameProcess.gd" id="1_avahw"]
 [ext_resource type="PackedScene" uid="uid://bmqlyfpgre41s" path="res://camera/camera.tscn" id="3_avahw"]
 [ext_resource type="Script" uid="uid://d2as56l441av" path="res://scripts/game/SelectionManager.gd" id="4_n7k1k"]
+[ext_resource type="PackedScene" uid="uid://diniio3lfnj8s" path="res://unit/creep_melee_radiant/creep_melee_radiant_scene.tscn" id="5_iqhxt"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_ita4j"]
 vertices = PackedVector2Array(1008, 592, 1424, 848, -208, 848, 496, 592, 1424, -144, 1008, 208, -208, -144, 496, 208, 496, 272, 688, 496, 944, 496, 944, 528, 560, 528, 560, 400, 688, 432, 816, 400, 944, 432, 944, 272, 816, 304, 752, 304, 752, 336, 496, 336)
@@ -1253,6 +1254,15 @@ tile_set = SubResource("TileSet_bhunq")
 [node name="Camera" parent="." unique_id=1547141651 instance=ExtResource("3_avahw")]
 
 [node name="Units" type="Node2D" parent="." unique_id=1217432480]
+
+[node name="UnitBase" parent="Units" unique_id=1994326592 instance=ExtResource("5_iqhxt")]
+position = Vector2(132, 189)
+
+[node name="UnitBase2" parent="Units" unique_id=164544957 instance=ExtResource("5_iqhxt")]
+position = Vector2(192, 177)
+
+[node name="UnitBase3" parent="Units" unique_id=1519381920 instance=ExtResource("5_iqhxt")]
+position = Vector2(252, 182)
 
 [node name="SelectionManager" type="CanvasLayer" parent="." unique_id=2075417692]
 script = ExtResource("4_n7k1k")
